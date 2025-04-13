@@ -1,0 +1,51 @@
+const express = require('express');
+const cors = require('cors');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const connectDB = require('./db');
+require('dotenv').config();
+
+const adminRoutes = require('./routes/adminRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000", // Your React app URL
+    methods: ["GET", "POST"]
+  }
+});
+
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/services', serviceRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/users', userRoutes);
+
+// WebSocket connection
+io.on('connection', (socket) => {
+  console.log('Client connected');
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+});
+
+// Make io accessible to our router
+app.set('io', io);
+
+// Connect to DB
+connectDB();
+
+// Test route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+httpServer.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
