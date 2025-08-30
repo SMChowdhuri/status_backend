@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Service = require('../models/Service'); // adjust path if needed
 
 // Replace this with your actual MongoDB URI
-const mongoURI = 'mongodb+srv://keshav:keshavp123@cluster0.mnzbnws.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = 'mongodb+srv://status:Status123@cluster0.ltcca2g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {

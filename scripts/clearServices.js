@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://keshav:keshavp123@cluster0.mnzbnws.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://status:Status123@cluster0.ltcca2g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -11,7 +11,7 @@ mongoose.connect('mongodb+srv://keshav:keshavp123@cluster0.mnzbnws.mongodb.net/?
 
 
 // const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = "mongodb+srv://keshav:keshavp123@cluster0.mnzbnws.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const uri = "mongodb+srv://status:Status123@cluster0.ltcca2g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 // const client = new MongoClient(uri, {
 //   serverApi: {

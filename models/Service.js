@@ -5,9 +5,25 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  url: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
-    default: 'operational', // can be: operational, major-outage, degraded-performance
+    default: 'UNKNOWN', // can be: UP, DOWN, UNKNOWN
+  },
+  latency: {
+    type: Number,
+    default: null,
+  },
+  uptime: {
+    type: Number,
+    default: 0,
+  },
+  lastChecked: {
+    type: Date,
+    default: null,
   },
   lastUpdated: {
     type: Date,

@@ -1,6 +1,7 @@
 const Admin = require('../models/Admin');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { cleanupOldStatusLogs } = require('../cron/heartbeat');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'yourSecretKey';
 
@@ -116,7 +117,34 @@ const loginAdmin = async (req, res) => {
     }
 };
 
+// Manual Status Logs Cleanup
+const manualCleanupStatusLogs = async (req, res) => {
+    try {
+        const result = await cleanupOldStatusLogs();
+        
+        if (result.success) {
+            res.json({
+                message: 'Status logs cleanup completed successfully',
+                deletedCount: result.deletedCount,
+                cutoffDate: result.cutoffDate
+            });
+        } else {
+            res.status(500).json({
+                message: 'Cleanup failed',
+                error: result.error
+            });
+        }
+    } catch (error) {
+        console.error('Manual cleanup error:', error);
+        res.status(500).json({ 
+            message: 'Error during manual cleanup', 
+            error: error.message 
+        });
+    }
+};
+
 module.exports = {
     registerAdmin,
-    loginAdmin
+    loginAdmin,
+    manualCleanupStatusLogs
 };

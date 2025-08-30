@@ -4,16 +4,18 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const connectDB = require('./db');
 require('dotenv').config();
+const { startHeartbeat } = require('./cron/heartbeat');
 
 const adminRoutes = require('./routes/adminRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const userRoutes = require('./routes/userRoutes');
+const incidentRoutes = require('./routes/incidentRoutes');
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Your React app URL
+    origin: "http://localhost:3000", //React app URL
     methods: ["GET", "POST"]
   }
 });
@@ -25,6 +27,10 @@ app.use(express.json());
 app.use('/api/services', serviceRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/incidents', incidentRoutes);
+
+// Start Heartbeat
+startHeartbeat(io);
 
 // WebSocket connection
 io.on('connection', (socket) => {
